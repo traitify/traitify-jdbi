@@ -1,4 +1,4 @@
-traitify-shared-java
+traitify-jdbi
 ====================
 
-Reusable java components
+Reusable JDBI components
