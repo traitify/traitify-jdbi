@@ -1,4 +1,4 @@
-package com.traitify.shared.persistence.mapper;
+package com.traitify.jdbi.mapper;
 
 import java.sql.ResultSet;
 

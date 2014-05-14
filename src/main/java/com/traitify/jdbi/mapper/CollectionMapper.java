@@ -1,7 +1,7 @@
-package com.traitify.shared.persistence.mapper;
+package com.traitify.jdbi.mapper;
 
-import com.traitify.shared.persistence.mapper.util.ReflectionUtil;
-import com.traitify.shared.persistence.mapper.util.TableUtil;
+import com.traitify.jdbi.mapper.util.ReflectionUtil;
+import com.traitify.jdbi.mapper.util.TableUtil;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;

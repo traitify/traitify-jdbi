@@ -1,4 +1,4 @@
-package com.traitify.shared.persistence.tables;
+package com.traitify.jdbi.tables;
 
 import com.amazonaws.services.simpledb.util.SimpleDBUtils;
 import org.apache.commons.lang.StringUtils;

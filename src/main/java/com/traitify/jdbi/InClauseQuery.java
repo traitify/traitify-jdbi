@@ -1,4 +1,4 @@
-package com.traitify.shared.persistence.jdbi;
+package com.traitify.jdbi;
 
 import org.apache.commons.lang.StringUtils;
 import org.skife.jdbi.v2.*;

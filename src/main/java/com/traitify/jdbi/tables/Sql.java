@@ -1,4 +1,4 @@
-package com.traitify.shared.persistence.tables;
+package com.traitify.jdbi.tables;
 
 import java.util.ArrayList;
 import java.util.List;

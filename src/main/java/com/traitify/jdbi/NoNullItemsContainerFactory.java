@@ -1,4 +1,4 @@
-package com.traitify.shared.persistence.jdbi;
+package com.traitify.jdbi;
 
 import org.skife.jdbi.v2.ContainerBuilder;
 import org.skife.jdbi.v2.tweak.ContainerFactory;

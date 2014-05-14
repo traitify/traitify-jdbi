@@ -1,7 +1,7 @@
-package com.traitify.shared.persistence.mapper;
+package com.traitify.jdbi.mapper;
 
-import com.traitify.shared.persistence.mapper.util.TableUtil;
-import com.traitify.shared.persistence.tables.BaseTable;
+import com.traitify.jdbi.mapper.util.TableUtil;
+import com.traitify.jdbi.tables.BaseTable;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 import org.slf4j.Logger;

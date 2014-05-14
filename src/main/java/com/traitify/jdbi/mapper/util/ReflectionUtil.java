@@ -1,4 +1,4 @@
-package com.traitify.shared.persistence.mapper.util;
+package com.traitify.jdbi.mapper.util;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;

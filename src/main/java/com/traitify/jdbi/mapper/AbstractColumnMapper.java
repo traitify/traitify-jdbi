@@ -1,6 +1,6 @@
-package com.traitify.shared.persistence.mapper;
+package com.traitify.jdbi.mapper;
 
-import com.traitify.shared.persistence.tables.BaseTable;
+import com.traitify.jdbi.tables.BaseTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
