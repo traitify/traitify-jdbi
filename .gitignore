@@ -1,3 +1,7 @@
 .idea
 
 traitify-shared-java.iml
+
+traitify-jdbi.iml
+
+/target/
