@@ -40,13 +40,13 @@
             <name>Ryan Chandler</name>
             <email>ryan@traitify.com</email>
             <organization>Traitify</organization>
-            <organizationUrl>http://www.woofound.com</organizationUrl>
+            <organizationUrl>http://www.traitify.com</organizationUrl>
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git@github.com:woofound/traitify-jdbi.git</connection>
-        <developerConnection>scm:git:git@github.com:woofound/traitify-jdbi.git</developerConnection>
-        <url>git@github.com:woofound/traitify-jdbi.git</url>
+        <connection>scm:git:git@github.com:traitify/traitify-jdbi.git</connection>
+        <developerConnection>scm:git:git@github.com:traitify/traitify-jdbi.git</developerConnection>
+        <url>git@github.com:traitify/traitify-jdbi.git</url>
     </scm>
     <distributionManagement>
         <snapshotRepository>
