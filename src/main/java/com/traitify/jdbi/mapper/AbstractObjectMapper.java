@@ -23,6 +23,7 @@ public abstract class AbstractObjectMapper<T> implements ResultSetMapper<T>, Obj
 
     protected abstract String getId(ResultSet resultSet);
     protected abstract T mapAssociatedEntities(T instance, ResultSet resultSet);
+    protected abstract T mapAdditionalColumns(T instance, ResultSet resultSet);
 
 
     public AbstractObjectMapper(String tableAlias, BaseTable table, Class<T> typeClass){
@@ -39,6 +40,7 @@ public abstract class AbstractObjectMapper<T> implements ResultSetMapper<T>, Obj
             return null;
         }
 
+        mapAdditionalColumns(getInstance(resultSet), resultSet);
         mapAssociatedEntities(getInstance(resultSet), resultSet);
         postMap(getInstance(resultSet), resultSet);
 

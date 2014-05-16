@@ -19,6 +19,7 @@ public class ReflectionMapper<T> extends AbstractColumnMapper<T> {
 
     private Map<String, Method> methodMap = new HashMap<>();
     private List<ObjectMapper<T>> associtedEntityMappers = new ArrayList<>();
+    private Map<String, String> additionalColumnToBeanMap = new HashMap<>();
 
 
     public ReflectionMapper(String tableAlias, BaseTable table, Class<T> typeClass){
@@ -37,13 +38,37 @@ public class ReflectionMapper<T> extends AbstractColumnMapper<T> {
     }
 
     @Override
+    protected T mapAdditionalColumns(T instance, ResultSet resultSet) {
+        for(String column : additionalColumnToBeanMap.keySet()){
+            Method setter = getSetterMethod(instance.getClass(), additionalColumnToBeanMap.get(column));
+
+            try {
+                Object colVal = resultSet.getObject(column);
+
+                if(colVal != null || !setter.getParameterTypes()[0].isPrimitive()){
+                    invokeMethod(instance, setter, colVal);
+                }
+
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage(), e);
+            }
+        }
+
+        return instance;
+    }
+
+
+    @Override
     protected boolean mapColumn(T instance, String column, ResultSet resultSet) {
         boolean hasValue = false;
         Method setter = getSetterMethod(instance.getClass(), column);
 
         try {
             Object colVal = resultSet.getObject(getFullColumnName(column));
-            invokeMethod(instance, setter, colVal);
+
+            if(colVal != null || !setter.getParameterTypes()[0].isPrimitive()){
+                invokeMethod(instance, setter, colVal);
+            }
 
             if(colVal != null){
                 hasValue = true;
@@ -90,7 +115,18 @@ public class ReflectionMapper<T> extends AbstractColumnMapper<T> {
         return ReflectionUtil.getGetterName(beanName);
     }
 
-    public void addAssociatedEntityMapper(ObjectMapper<T> objectMapper){
+    public ReflectionMapper addAssociatedEntityMapper(ObjectMapper<T> objectMapper){
         associtedEntityMappers.add(objectMapper);
+        return this;
+    }
+
+    public ReflectionMapper addAdditionColumn(String columnName, String beanName){
+        additionalColumnToBeanMap.put(columnName, beanName);
+        return this;
+    }
+
+    public ReflectionMapper addAdditionColumn(String columnName){
+        additionalColumnToBeanMap.put(columnName, columnName);
+        return this;
     }
 }
