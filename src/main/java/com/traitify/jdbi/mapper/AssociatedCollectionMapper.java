@@ -9,9 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class CollectionMapper<T, I> implements ObjectMapper<T> {
+public class AssociatedCollectionMapper<T, I> implements ObjectMapper<T> {
 
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CollectionMapper.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(AssociatedCollectionMapper.class);
 
     private String beanName;
     private AbstractObjectMapper<I> itemMapper;
@@ -19,17 +19,17 @@ public class CollectionMapper<T, I> implements ObjectMapper<T> {
     private String columnName;
 
 
-    public CollectionMapper(String beanName, AbstractObjectMapper<I> itemMapper){
+    public AssociatedCollectionMapper(String beanName, AbstractObjectMapper<I> itemMapper){
         this.beanName = beanName;
         this.itemMapper = itemMapper;
     }
 
-    public CollectionMapper(String beanName, String columnName){
+    public AssociatedCollectionMapper(String beanName, String columnName){
         this.beanName = beanName;
         this.columnName = columnName;
     }
 
-    public CollectionMapper(String beanName, String tableAlias, String columnName){
+    public AssociatedCollectionMapper(String beanName, String tableAlias, String columnName){
         this.beanName = beanName;
         this.tableAlias = tableAlias;
         this.columnName = columnName;

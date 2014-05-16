@@ -39,7 +39,8 @@ public abstract class AbstractObjectMapper<T> implements ResultSetMapper<T>, Obj
             return null;
         }
 
-        instance = mapAssociatedEntities(getInstance(resultSet), resultSet);
+        mapAssociatedEntities(getInstance(resultSet), resultSet);
+        postMap(getInstance(resultSet), resultSet);
 
         if(isNewObject){
             return instance;
@@ -86,5 +87,9 @@ public abstract class AbstractObjectMapper<T> implements ResultSetMapper<T>, Obj
         }
 
         return instance;
+    }
+
+    public T postMap(T instance, ResultSet resultSet){
+        return instance; // Override to do something
     }
 }
