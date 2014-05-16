@@ -50,7 +50,8 @@ public class AssociatedCollectionMapper<T, I> implements ObjectMapper<T> {
 
     private I getItem(ResultSet resultSet){
         if(itemMapper != null){
-            return itemMapper.mapObject(resultSet);
+            itemMapper.mapObject(resultSet);
+            return itemMapper.getInstance(resultSet);
         }
 
         try {

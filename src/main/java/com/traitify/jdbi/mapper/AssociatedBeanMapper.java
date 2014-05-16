@@ -12,7 +12,6 @@ public class AssociatedBeanMapper<T, B> implements ObjectMapper<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(AssociatedBeanMapper.class);
 
     private Method setter;
-    private Method getter;
     private String beanName;
     private AbstractObjectMapper<B> beanMapper;
 
@@ -24,30 +23,10 @@ public class AssociatedBeanMapper<T, B> implements ObjectMapper<T> {
 
     @Override
     public T map(T instance, ResultSet resultSet) {
-        B bean = getBean(instance);
-
-        bean = beanMapper.map(bean, resultSet);
-        setBean(instance, bean);
+        beanMapper.mapObject(resultSet);
+        setBean(instance, beanMapper.getInstance(resultSet));
 
         return instance;
-    }
-
-    private B getBean(T instance){
-        Method getter = getGetter(instance);
-        Object obj = ReflectionUtil.invokeMethod(instance, getter);
-
-        if(obj == null){
-            try {
-                return (B)getter.getReturnType().newInstance();
-            } catch (Exception e) {
-                LOGGER.error(e.getMessage(), e);
-            }
-        }
-        else{
-            return (B)obj;
-        }
-
-        return null;
     }
 
     private void setBean(T instance, B bean){
@@ -67,19 +46,5 @@ public class AssociatedBeanMapper<T, B> implements ObjectMapper<T> {
         }
 
         return setter;
-    }
-
-    private Method getGetter(T instance){
-        if(getter != null){
-            return getter;
-        }
-
-        getter = ReflectionUtil.getGetterMethod(instance.getClass(), beanName);
-
-        if(getter == null){
-            throw new IllegalArgumentException("No getter for [" + beanName + "] in class [" + instance.getClass().getName() + "]");
-        }
-
-        return getter;
     }
 }

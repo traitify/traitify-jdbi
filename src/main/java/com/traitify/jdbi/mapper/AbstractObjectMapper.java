@@ -42,10 +42,12 @@ public abstract class AbstractObjectMapper<T> implements ResultSetMapper<T>, Obj
         mapAssociatedEntities(getInstance(resultSet), resultSet);
         postMap(getInstance(resultSet), resultSet);
 
+        // Returning an existing instance causes duplicates in the returned results
         if(isNewObject){
             return instance;
         }
 
+        // Return NULL for existing instances
         return null;
     }
 
