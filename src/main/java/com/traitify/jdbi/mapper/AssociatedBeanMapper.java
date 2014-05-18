@@ -23,15 +23,15 @@ public class AssociatedBeanMapper<T, B> implements ObjectMapper<T> {
 
     @Override
     public T map(T instance, ResultSet resultSet) {
-        beanMapper.mapObject(resultSet);
-        setBean(instance, beanMapper.getInstance(resultSet));
-
+        setBean(instance, beanMapper.mapObject(resultSet));
         return instance;
     }
 
     private void setBean(T instance, B bean){
-        Method setter = getSetter(instance);
-        ReflectionUtil.invokeMethod(instance, setter, bean);
+        if(bean != null){
+            Method setter = getSetter(instance);
+            ReflectionUtil.invokeMethod(instance, setter, bean);
+        }
     }
 
     private Method getSetter(T instance){
