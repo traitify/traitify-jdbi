@@ -7,7 +7,7 @@ public abstract class ContainerMapper <T> extends AbstractObjectMapper<T> {
 
     private DependencyHandler<T> dependencyHandler;
 
-    protected abstract String getId(ResultSet resultSet);
+    protected abstract String getId(ResultSet resultSet, String parentId);
 
     public ContainerMapper(Class<T> typeClass){
         super(typeClass);
@@ -15,13 +15,13 @@ public abstract class ContainerMapper <T> extends AbstractObjectMapper<T> {
     }
 
     @Override
-    public T map(T instance, ResultSet resultSet) {
+    public T map(T instance, String parentId, ResultSet resultSet) {
         return instance; // Container mapper has nothing to do
     }
 
     @Override
-    protected T mapAssociatedEntities(T instance, ResultSet resultSet) {
-        return dependencyHandler.mapAssociatedEntities(instance, resultSet);
+    protected T mapAssociatedEntities(T instance, String parentId, ResultSet resultSet) {
+        return dependencyHandler.mapAssociatedEntities(instance, parentId, resultSet);
     }
 
     @Override

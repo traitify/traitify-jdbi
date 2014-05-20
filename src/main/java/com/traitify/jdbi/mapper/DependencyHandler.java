@@ -24,10 +24,10 @@ public class DependencyHandler<T>{
         this.methodMap = methodMap;
     }
 
-    protected T mapAssociatedEntities(T instance, ResultSet resultSet){
+    protected T mapAssociatedEntities(T instance, String id, ResultSet resultSet){
         for(ObjectMapper<T> objectMapper : associatedEntityMappers){
             if(objectMapper != null){
-                instance = objectMapper.map(instance, resultSet);
+                instance = objectMapper.map(instance, id, resultSet);
             }
         }
 

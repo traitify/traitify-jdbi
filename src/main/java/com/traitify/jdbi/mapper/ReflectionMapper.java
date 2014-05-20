@@ -25,8 +25,8 @@ public class ReflectionMapper<T> extends AbstractTableColumnMapper<T>{
     }
 
     @Override
-    protected T mapAssociatedEntities(T instance, ResultSet resultSet) {
-        return dependencyHandler.mapAssociatedEntities(instance, resultSet);
+    protected T mapAssociatedEntities(T instance, String parentId, ResultSet resultSet) {
+        return dependencyHandler.mapAssociatedEntities(instance, parentId, resultSet);
     }
 
     @Override
@@ -137,9 +137,9 @@ public class ReflectionMapper<T> extends AbstractTableColumnMapper<T>{
     }
 
     @Override
-    protected String getId(ResultSet resultSet) {
+    protected String getId(ResultSet resultSet, String parentId) {
         try {
-            return resultSet.getString(getFullColumnName("id"));
+            return parentId + resultSet.getString(getFullColumnName("id"));
         } catch (SQLException e) {
             LOGGER.error(e.getMessage(), e);
         }

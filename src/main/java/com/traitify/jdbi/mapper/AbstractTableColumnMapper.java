@@ -11,15 +11,15 @@ public abstract class AbstractTableColumnMapper<T> extends AbstractTableObjectMa
     private static final Logger LOGGER = LoggerFactory.getLogger(ReflectionMapper.class);
 
     protected abstract boolean mapColumn(T instance, String column, ResultSet resultSet);
-    protected abstract String getId(ResultSet resultSet);
-    protected abstract T mapAssociatedEntities(T instance, ResultSet resultSet);
+    protected abstract String getId(ResultSet resultSet, String parentId);
+    protected abstract T mapAssociatedEntities(T instance, String parentId, ResultSet resultSet);
 
     public AbstractTableColumnMapper(String tableAlias, BaseTable table, Class<T> typeClass){
         super(tableAlias, table, typeClass);
     }
 
     @Override
-    public T map(T instance, ResultSet resultSet) {
+    public T map(T instance, String id, ResultSet resultSet) {
         String[] columns = getTable().getColumns();
 
         boolean emptyObject = true;

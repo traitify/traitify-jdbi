@@ -4,5 +4,5 @@ import java.sql.ResultSet;
 
 public interface ObjectMapper<T> {
 
-    public T map(T instance, ResultSet resultSet);
+    public T map(T instance, String instanceId, ResultSet resultSet);
 }

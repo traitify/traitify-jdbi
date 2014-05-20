@@ -12,7 +12,7 @@ public class SingleContainerMapper<T> extends ContainerMapper<T>{
     }
 
     @Override
-    protected String getId(ResultSet resultSet) {
+    protected String getId(ResultSet resultSet, String parentId) {
         return id;
     }
 }

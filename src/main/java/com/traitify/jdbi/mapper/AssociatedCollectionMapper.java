@@ -36,9 +36,9 @@ public class AssociatedCollectionMapper<T, I> implements ObjectMapper<T> {
     }
 
     @Override
-    public T map(T instance, ResultSet resultSet) {
+    public T map(T instance, String id, ResultSet resultSet) {
         Collection collection = getCollection(instance);
-        I item = getItem(resultSet);
+        I item = getItem(resultSet, id);
 
         if(item != null){
             collection.add(item);
@@ -48,9 +48,9 @@ public class AssociatedCollectionMapper<T, I> implements ObjectMapper<T> {
         return instance;
     }
 
-    private I getItem(ResultSet resultSet){
+    private I getItem(ResultSet resultSet, String id){
         if(itemMapper != null){
-            I item = itemMapper.mapObject(resultSet);
+            I item = itemMapper.mapObject(resultSet, id);
             return item;
         }
 
