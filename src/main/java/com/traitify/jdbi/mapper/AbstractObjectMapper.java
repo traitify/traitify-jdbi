@@ -1,7 +1,5 @@
 package com.traitify.jdbi.mapper;
 
-import com.traitify.jdbi.mapper.util.TableUtil;
-import com.traitify.jdbi.tables.BaseTable;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 import org.slf4j.Logger;
@@ -12,27 +10,22 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractObjectMapper<T> implements ResultSetMapper<T>, ObjectMapper<T> {
-
-    private String tableAlias;
-    private BaseTable table;
-    private Class<T> typeClass;
-    private Map<String, T> idToInstanceMap = new HashMap<>();
+public abstract class AbstractObjectMapper<T> implements ResultSetMapper<T>, ObjectMapper<T>{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractObjectMapper.class);
+
+    private Class<T> typeClass;
+    private Map<String, T> idToInstanceMap = new HashMap<>();
 
     protected abstract String getId(ResultSet resultSet);
     protected abstract T mapAssociatedEntities(T instance, ResultSet resultSet);
     protected abstract T mapAdditionalColumns(T instance, ResultSet resultSet);
 
-
-    public AbstractObjectMapper(String tableAlias, BaseTable table, Class<T> typeClass){
-        this.tableAlias = tableAlias;
-        this.table = table;
+    public AbstractObjectMapper(Class<T> typeClass){
         this.typeClass = typeClass;
     }
 
-    public T mapObject(ResultSet resultSet){
+    protected T mapObject(ResultSet resultSet){
         boolean isNewObject = isNewObject(resultSet);
         T instance = map(getInstance(resultSet), resultSet);
 
@@ -53,16 +46,9 @@ public abstract class AbstractObjectMapper<T> implements ResultSetMapper<T>, Obj
         return null;
     }
 
-    public T map(int index, ResultSet resultSet, StatementContext ctx) throws SQLException{
+    @Override
+    public T map(int index, ResultSet resultSet, StatementContext ctx) throws SQLException {
         return mapObject(resultSet);
-    }
-
-    protected String getFullColumnName(String baseColumnName){
-        return TableUtil.getFullColumnName(tableAlias, baseColumnName);
-    }
-
-    protected BaseTable getTable(){
-        return table;
     }
 
     protected Class<T> getTypeClass(){
@@ -93,7 +79,7 @@ public abstract class AbstractObjectMapper<T> implements ResultSetMapper<T>, Obj
         return instance;
     }
 
-    public T postMap(T instance, ResultSet resultSet){
+    protected T postMap(T instance, ResultSet resultSet){
         return instance; // Override to do something
     }
 }

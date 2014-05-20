@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.ResultSet;
 
-public abstract class AbstractColumnMapper<T> extends AbstractObjectMapper<T> {
+public abstract class AbstractTableColumnMapper<T> extends AbstractTableObjectMapper<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReflectionMapper.class);
 
@@ -14,7 +14,7 @@ public abstract class AbstractColumnMapper<T> extends AbstractObjectMapper<T> {
     protected abstract String getId(ResultSet resultSet);
     protected abstract T mapAssociatedEntities(T instance, ResultSet resultSet);
 
-    public AbstractColumnMapper(String tableAlias, BaseTable table, Class<T> typeClass){
+    public AbstractTableColumnMapper(String tableAlias, BaseTable table, Class<T> typeClass){
         super(tableAlias, table, typeClass);
     }
 

@@ -14,12 +14,12 @@ public class AssociatedCollectionMapper<T, I> implements ObjectMapper<T> {
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(AssociatedCollectionMapper.class);
 
     private String beanName;
-    private AbstractObjectMapper<I> itemMapper;
+    private AbstractTableObjectMapper<I> itemMapper;
     private String tableAlias;
     private String columnName;
 
 
-    public AssociatedCollectionMapper(String beanName, AbstractObjectMapper<I> itemMapper){
+    public AssociatedCollectionMapper(String beanName, AbstractTableObjectMapper<I> itemMapper){
         this.beanName = beanName;
         this.itemMapper = itemMapper;
     }
@@ -50,8 +50,8 @@ public class AssociatedCollectionMapper<T, I> implements ObjectMapper<T> {
 
     private I getItem(ResultSet resultSet){
         if(itemMapper != null){
-            itemMapper.mapObject(resultSet);
-            return itemMapper.getInstance(resultSet);
+            I item = itemMapper.mapObject(resultSet);
+            return item;
         }
 
         try {
@@ -115,6 +115,6 @@ public class AssociatedCollectionMapper<T, I> implements ObjectMapper<T> {
             return (Set)collection;
         }
 
-        return new HashSet();
+        return new LinkedHashSet();
     }
 }
