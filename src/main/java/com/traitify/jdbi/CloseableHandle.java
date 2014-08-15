@@ -3,23 +3,68 @@ package com.traitify.jdbi;
 import org.skife.jdbi.v2.*;
 import org.skife.jdbi.v2.exceptions.TransactionFailedException;
 import org.skife.jdbi.v2.tweak.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 public class CloseableHandle implements Handle, AutoCloseable {
 
     private final Handle handle;
+    private static final ThreadLocal<CloseableHandle> holder = new ThreadLocal<>();
 
-    public CloseableHandle(Handle handle) {
+    private static final Logger LOGGER =  LoggerFactory.getLogger(CloseableHandle.class);
+
+
+    private CloseableHandle(Handle handle) {
         this.handle = handle;
         handle.registerContainerFactory(new NoNullItemsContainerFactory());
     }
 
+    public static CloseableHandle get(DBI dbi){
+        if(holder.get() == null){
+            LOGGER.debug("Creating new handle");
+            holder.set(new CloseableHandle(dbi.open()));
+        }
+
+        try {
+            if(holder.get().getConnection().isClosed()){
+                LOGGER.debug("Creating new handle due to closed connection");
+                holder.set(new CloseableHandle(dbi.open()));
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+
+        return holder.get();
+    }
+
+    public static CloseableHandle begin(DBI dbi){
+        CloseableHandle h = get(dbi);
+        h.begin();
+        return h;
+    }
+
+    public static void commit(DBI dbi){
+        get(dbi).commit();
+    }
+
+    public static void rollback(DBI dbi){
+        get(dbi).rollback();
+    }
+
+
     @Override
     public void close() {
-        handle.close();
+        if(!handle.isInTransaction()){
+            LOGGER.debug("Closing");
+            handle.close();
+        }else{
+            LOGGER.info("Not closing, in a transaction");
+        }
     }
 
     @Override
@@ -29,16 +74,19 @@ public class CloseableHandle implements Handle, AutoCloseable {
 
     @Override
     public Handle begin() {
+        LOGGER.debug("Begin transaction");
         return handle.begin();
     }
 
     @Override
     public Handle commit() {
+        LOGGER.debug("Commit transaction");
         return handle.commit();
     }
 
     @Override
     public Handle rollback() {
+        LOGGER.debug("Rollback transaction");
         return handle.rollback();
     }
 
